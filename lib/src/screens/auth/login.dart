@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
       "password": passControl.text,
     });
     http.Response response = await http.post(
-      Uri.parse('${paseUrl}auth/login'),
+      Uri.parse('${baseUrl}api/auth/login'),
       headers: {"Content-Type": "application/json"},
       body: body,
     );

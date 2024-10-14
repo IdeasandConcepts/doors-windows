@@ -1,20 +1,21 @@
 
-class Clients {
-
+class Employee {
   final String name;
   final String address;
   final String phoneNumber;
   final String email;
+  final String password;
   final String profileImage;
   final double lat,lang;
   final String employeeId;
 
-  const Clients({
+  const Employee({
     required this.employeeId,
     required this.name,
     required this.address,
     required this.phoneNumber,
     required this.email,
+    required this.password,
     required this.profileImage,
     required this.lang,
     required this.lat
@@ -29,12 +30,14 @@ class Clients {
       "address":address,
       "phone_number": phoneNumber,
       "email": email,
+      'password':password,
       "profile_image": profileImage,
     };
   }
 
-  factory Clients.fromMap(Map<String, dynamic> map) {
-    return Clients(
+  factory Employee.fromMap(Map<String, dynamic> map) {
+    return Employee(
+    password:map['password'],
       employeeId: map['employee_id'],
       lang: map['langitute'],
       lat: map['latitute'],
@@ -47,7 +50,8 @@ class Clients {
     );
   }
 
-  Clients copyWith({
+  Employee copyWith({
+    String? password,
     String? employeeId,
     double? lat,
     double? lang,
@@ -58,16 +62,16 @@ class Clients {
     String? profileImage,
 
   }) {
-    return Clients(
+    return Employee(
       employeeId: employeeId?? this.employeeId,
       lang: lang ?? this.lang,
       lat: lat ?? this.lat,
       profileImage: profileImage ?? this.profileImage,
       email: email ?? this.email,
+      password: password ?? this.password,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       address: address ?? this.address,
       name: name ?? this.name,
-
     );
   }
 }

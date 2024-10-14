@@ -86,45 +86,46 @@ List<Map<String, dynamic>> component = [
 "calories": 201
 },
 ];
-List<Products> productsData = [
-  const Products(
-      pCode: "bd3g737f4",
-      pTitle: "Classic door",
-      pColor: "grey",
-      classColor: "Of white",
-      pCategory: "Doors",
-      pHeight: 400.0,
-      pWidth:180.0
-  ), const Products(
-      pCode: "bd3g7f423",
-      pTitle: "Classic window",
-      pColor: "white",
-      classColor: "blue",
-      pCategory: "windows",
-      pHeight: 200.0,
-      pWidth:200.0
-  ), const Products(
-      pCode: "g8737hhf4",
-      pTitle: "Aluminium door",
-      pColor: "brown",
-      classColor: "Of white",
-      pCategory: "Doors",
-      pHeight: 500.0,
-      pWidth:200.0
-  ),
-  const Products(
-      pCode: "bd3g737f4",
-      pTitle: "Class window",
-      pColor: "black",
-      classColor: "Of white",
-      pCategory: "windows",
-      pHeight: 170.0,
-      pWidth:200.0
-  ),
-
-];
+// List<Products> productsData = [
+//   const Products(
+//       pCode: "bd3g737f4",
+//       pTitle: "Classic door",
+//       pColor: "grey",
+//       classColor: "Of white",
+//       pCategory: "Doors",
+//       pHeight: 400.0,
+//       pWidth:180.0
+//   ), const Products(
+//       pCode: "bd3g7f423",
+//       pTitle: "Classic window",
+//       pColor: "white",
+//       classColor: "blue",
+//       pCategory: "windows",
+//       pHeight: 200.0,
+//       pWidth:200.0
+//   ), const Products(
+//       pCode: "g8737hhf4",
+//       pTitle: "Aluminium door",
+//       pColor: "brown",
+//       classColor: "Of white",
+//       pCategory: "Doors",
+//       pHeight: 500.0,
+//       pWidth:200.0
+//   ),
+//   const Products(
+//       pCode: "bd3g737f4",
+//       pTitle: "Class window",
+//       pColor: "black",
+//       classColor: "Of white",
+//       pCategory: "windows",
+//       pHeight: 170.0,
+//       pWidth:200.0
+//   ),
+//
+// ];
 List<Clients> clientData=[
   const Clients(
+      employeeId:"Adel",
       lat: 0.0,
       lang: 0.0,
       name: "Ahmed Hantop",
@@ -133,6 +134,7 @@ List<Clients> clientData=[
       email: "ahmed@gmail.com",
       profileImage: "assets/images/profile.png"),
   const Clients(
+      employeeId:"Ahmed",
       lat: 0.0,
       lang: 0.0,
       name: "Mohamad Hosny",
@@ -141,6 +143,7 @@ List<Clients> clientData=[
       email: "mohamad@gmail.com",
       profileImage: "assets/images/profile.png"),
   const Clients(
+      employeeId:"Omer",
     lat: 0.0,
       lang: 0.0,
       name: "Mohamed ahmed",

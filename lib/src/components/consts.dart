@@ -8,7 +8,7 @@ class ColorApp {
   static const Color backgroundColor = Color(0xffE4F1F8);
   static const Color black = Color.fromARGB(0, 0, 0, 0);
 }
-const String paseUrl = 'https://sahm-backend.onrender.com/api/';
+const String baseUrl = 'https://doors-windowsbackend.onrender.com';
 
 const mainColor = Color(0xff235464);
 const blackColor=Colors.black;

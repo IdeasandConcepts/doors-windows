@@ -5,12 +5,17 @@ import 'package:doorsandwindows/src/widgets/clients/client_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
+import 'dart:convert';
+import 'package:doorsandwindows/model/client.dart';
+import 'package:http/http.dart' as http;
 
 
 class ClientsScreen extends StatefulWidget {
-
+//   final String employeeId;
+// final List<dynamic>?  clientsId;
   const ClientsScreen({Key? key,
+    // required this.clientsId,
+    // required this.employeeId,
 
 
   }) : super(key: key);
@@ -20,9 +25,69 @@ class ClientsScreen extends StatefulWidget {
 }
 
 class _ClientsScreenState extends State<ClientsScreen> with TickerProviderStateMixin {
+
+@override
+  void initState() {
+   readClients(
+      // widget.clientsId!
+   );
+    super.initState();
+  }
+  Clients? client;
+  List<Clients> clients=[];
+  Map<String,dynamic>? dataMap;
+  Map<String,dynamic>? doneDataMap;
+  List<dynamic>? data;
+
+  Future readClients (
+     // List<dynamic>? clientsId
+      ) async {
+    // final body = json.encode({
+    //   "employeeId":clientsId
+    // });
+    http.Response response = await http.post(
+      Uri.parse('${{baseUrl}}/api/client'),
+
+      headers: {"Content-Type": "application/json"},
+      //body: body,
+    );
+    // http.Response response ;
+    // response= await http.get(Uri.parse('${baseUrl}/api/auth/login'));
+
+
+    if(response.statusCode==200)
+    {
+      dataMap=jsonDecode(response.body);
+      doneDataMap=dataMap!['data']; /// for single data
+print(jsonDecode(response.body).toString());
+      // client=Clients(
+      //   employeeId:doneDataMap!['employee_id'],
+      //   lang: doneDataMap!['langitute'],
+      //   lat: doneDataMap!['latitute'],
+      //   name: doneDataMap!["name"],
+      //   address:doneDataMap!["address"],
+      //   phoneNumber: doneDataMap!['phone_number'],
+      //   email: doneDataMap!['email'],
+      //   profileImage: doneDataMap!['profile_image'],
+      // );
+      // data =dataMap!['data']; /// for list of data
+      // for(int x=0;x<data!.length;x++)
+      //   clients[x]=Clients(
+      //     employeeId:doneDataMap!['employee_id'],
+      //     lang: data![x]['langitute'],
+      //     lat:data![x]['latitute'],
+      //     name:data![x]["name"],
+      //     address:data![x]["address"],
+      //     phoneNumber:data![x]['phone_number'],
+      //     email:data![x]['email'],
+      //     profileImage:data![x]['profile_image'],
+      //   );
+    }
+  }
+
   TextEditingController clientController=TextEditingController();
 int selectedTab=0;
-  List<String>clients=["New","Old"];
+  List<String>clientTypes=["New","Old"];
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +236,7 @@ bool isSelected=false;
   update(int index) {
     setState(() {
       print(index);
-      if(index==clients[index])
+      if(index==clientTypes[index])
         isSelected=true;
      // selectedTab=index;
     });

@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:doorsandwindows/src/components/consts.dart';
 import 'package:doorsandwindows/src/components/default_button.dart';
 import 'package:doorsandwindows/src/screens/clients/clients.dart';
@@ -6,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'package:http/http.dart' as http;
 
+import 'controller/shared/shared_prefrances.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,13 +20,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController idcontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   late String idstr, passwordstr;
 
   bool _obscureText=false;
-
   void toggle(){
     setState(() {
       _obscureText=!_obscureText;
@@ -105,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: TextFormField(
                                     // maxLines: 1,
                                     keyboardType: TextInputType.emailAddress,
-                                    controller: idcontroller,
+                                    controller: emailController,
                                     // controller: username,
                                     decoration: InputDecoration(
                                       contentPadding:
@@ -114,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       //prefixIcon: Icon(Icons.person),
                                         //(idcontroller.text=="")
                                         suffixIcon:
-                                        (idcontroller.text!="")?
+                                        (emailController.text!="")?
                                         IconButton(
                                         onPressed: (){
                                           //toggle();
@@ -129,11 +132,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     onSaved: (newValue) {
                                       idstr = newValue!;
-                                      idstr = idcontroller.text;
+                                      idstr = emailController.text;
                                     },
                                     onChanged: (newValue) {
                                       idstr = newValue;
-                                      idstr = idcontroller.text;
+                                      idstr = emailController.text;
                                     },
                                   ),
                                 )),
@@ -155,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: TextFormField(
                                     keyboardType: TextInputType.text,
                                     obscureText: !_obscureText,
-                                    controller: passwordcontroller,
+                                    controller: passwordController,
                                     // controller: username,
                                     decoration: InputDecoration(
                                       contentPadding:
@@ -181,85 +184,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                     // labelText: "Password",
                                     onSaved: (newValue) {
                                       idstr = newValue!;
-                                      idstr = idcontroller.text;
+                                      idstr = passwordController.text;
                                     },
                                     onChanged: (newValue) {
                                       idstr = newValue;
-                                      idstr = passwordcontroller.text;
+                                      idstr = passwordController.text;
                                     },
                                   ),
                                 )),
                             SizedBox(height: 51.h),
                             GestureDetector(
                               onTap: (){
+                                _signIn();
                                // if (_formkey.currentState?.validate() == true)
                                   //_formkey.currentState?.save();
                                 // {
                                 //   try {
-                                    Get.offAll(ClientsScreen());
-                                    // final user = await AuthHelper.signWithemail(
-                                    //     idcontroller.text.toString().trim(),
-                                    //     passwordcontroller.text.toString().trim());
-                                    // if (user != null) {
-                                    //   // Fluttertoast.showToast(
-                                    //   //
-                                    //   //     msg: "Login Successfully".tr,
-                                    //   //     backgroundColor: kprimaryColor,
-                                    //   //     toastLength: Toast.LENGTH_LONG,
-                                    //   //     fontSize: 20,
-                                    //   //     gravity:ToastGravity.CENTER
-                                    //   //
-                                    //   // );
-                                    //   //Get.to(()=>AuthPage());
-                                    //   //Get.offAll(AndroidAuthPage());
-                                    //
-                                    //   // Get.offAll(AuthPage());
-                                    //   //Get.replace => AuthPage());
-                                    //   // print('success');
-                                    // }
-                                 // } catch (e) {
-                                    // if ((idcontroller.text.toString() == "")
-                                    //     &&(passwordcontroller.text.toString()=="")) {
-                                    //   Fluttertoast.showToast(
-                                    //       msg: "User Name && Password!! are Empty".tr,
-                                    //       backgroundColor: Colors.grey,
-                                    //       toastLength: Toast.LENGTH_LONG,
-                                    //       fontSize: 20,
-                                    //       gravity: ToastGravity.CENTER
-                                    //   );
-                                    // }
-                                    // else if ((idcontroller.text.toString() == "")
-                                    //     &&(passwordcontroller.text.toString()!="")) {
-                                    //   Fluttertoast.showToast(
-                                    //       msg: "User Name Can't be Empty".tr,
-                                    //       backgroundColor: Colors.grey,
-                                    //       toastLength: Toast.LENGTH_LONG,
-                                    //       fontSize: 20,
-                                    //       gravity: ToastGravity.CENTER
-                                    //   );
-                                    // }else if ((idcontroller.text.toString() != "")
-                                    //     &&(passwordcontroller.text.toString()=="")) {
-                                    //   Fluttertoast.showToast(
-                                    //       msg: "Password Can't be Empty".tr,
-                                    //       backgroundColor: Colors.grey,
-                                    //       toastLength: Toast.LENGTH_LONG,
-                                    //       fontSize: 20,
-                                    //       gravity: ToastGravity.CENTER
-                                    //   );
-                                    // }
-                                    // // else if ((idcontroller.text.toString() != "")
-                                    // //     &&(passwordcontroller.text.toString()!="")) {
-                                    // //   Fluttertoast.showToast(
-                                    // //       msg: "Wrong User Name && Password!!".tr,
-                                    // //       backgroundColor: Colors.grey,
-                                    // //       toastLength: Toast.LENGTH_LONG,
-                                    // //       fontSize: 20,
-                                    // //       gravity: ToastGravity.CENTER
-                                    //   );
-                                    //   print(e);
-                                    // }
-                                //  }
-                               // }
+
+
                               },
                               child: DefualtButton(
                                 text: "LOGIN".tr,
@@ -281,5 +223,57 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+  //! the Function Sing In => Api
+  Map<String,dynamic>? dataMap;
+  Map<String,dynamic>? doneDataMap;
+  List<dynamic>? data;
+
+  _signIn() async {
+    final body = json.encode({
+      "email": emailController.text,
+      "password": passwordController.text,
+    });
+    http.Response response = await http.post(
+      Uri.parse('${baseUrl}/api/auth/login'),
+      headers: {"Content-Type": "application/json"},
+      body: body,
+    );
+    if (response.statusCode == 200) {
+      dataMap=jsonDecode(response.body);
+      doneDataMap=dataMap!['data'];
+    data=doneDataMap!['assignedClients'];
+    /// for single data
+      /// print data
+      print(doneDataMap.toString());
+      // print(doneDataMap!['assignedClients']);
+      // print(doneDataMap!['id'].toString());
+      // print(doneDataMap!['id'].toString());
+      // print(doneDataMap!['id'].toString());
+
+      // var errorResponse = json.decode(response.body);
+      // var errorMessage = errorResponse['data']['_id'];
+      // print(errorMessage);
+      // print(response.statusCode);
+      // print('Success');
+
+      emailController.clear();
+      passwordController.clear();
+      Get.offAll(ClientsScreen(
+      //   clientsId: data!,
+      // employeeId:doneDataMap!['_id'],
+      ));
+      // ignore: use_build_context_synchronously
+     // Navigator.pushNamed(context, '/SigninPage');
+    } else {
+      var errorResponse = json.decode(response.body);
+      var errorMessage = errorResponse["errors"][0]["msg"];
+      print(errorMessage);
+      print(response.statusCode);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(errorMessage.toString()),
+      ));
+      print('Error');
+    }
   }
 }

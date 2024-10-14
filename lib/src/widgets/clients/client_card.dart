@@ -41,7 +41,7 @@ class _ClientCardState extends State<ClientCard> {
   String? sharedlang;
   @override
   void initState() {
-    _handleLocationPermission();
+   // _handleLocationPermission();
 
     // TODO: implement initState
   // sharedlang = myServices.sharedPreferences.getString("lang");
@@ -235,31 +235,31 @@ class _ClientCardState extends State<ClientCard> {
     return val;
   }
 
-  Future<Position> _handleLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Location services are disabled. Please enable the services')));
-      //return false;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Location permissions are denied')));
-        //return false;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Location permissions are permanently denied, we cannot request permissions.')));
-      //return false;
-    }
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  }
+  // Future<Position> _handleLocationPermission() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     await Geolocator.openLocationSettings();
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //         content: Text('Location services are disabled. Please enable the services')));
+  //     //return false;
+  //   }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(content: Text('Location permissions are denied')));
+  //       //return false;
+  //     }
+  //   }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+  //         content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+  //     //return false;
+  //   }
+  //   return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  // }
 }

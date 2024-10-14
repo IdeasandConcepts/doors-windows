@@ -178,7 +178,7 @@ class _SignUpState extends State<SignUp> {
     });
 
     http.Response response = await http.post(
-      Uri.parse('${paseUrl}auth/signup'),
+      Uri.parse('${baseUrl}/api/auth/signup'),
       headers: {"Content-Type": "application/json"},
       body: bodyResponse,
     );

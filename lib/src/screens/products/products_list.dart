@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:camera/camera.dart';
 import 'package:doorsandwindows/model/model.dart';
 import 'package:doorsandwindows/model/products.dart';
@@ -10,7 +12,7 @@ import 'package:doorsandwindows/src/widgets/drop_down_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
+import 'package:http/http.dart' as http;
 class ProductsListScreen extends StatefulWidget {
   final Clients client;
   const ProductsListScreen({super.key, required this.client});
@@ -20,6 +22,52 @@ class ProductsListScreen extends StatefulWidget {
 }
 
 class _ProductsListScreenState extends State<ProductsListScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    readProducts();
+    init();
+  }
+
+
+  Products? product;
+  List<Products> products=[];
+  Map<String,dynamic>? dataMap;
+  Map<String,dynamic>? doneDataMap;
+  List<dynamic>? data;
+
+  Future readProducts () async {
+    http.Response response ;
+    response= await http.get(Uri.parse('${{baseUrl}}/api/products'));
+
+    if(response.statusCode==200)
+    {
+      dataMap=jsonDecode(response.body);
+      doneDataMap=dataMap!['data'];/// for single data
+
+      product=Products(
+        pCode: doneDataMap!['productCode'],
+        pTitle:doneDataMap!['productName'],
+        pColor: doneDataMap!['productColor'],
+        classColor: doneDataMap!['classColor'],
+        pCategory: doneDataMap!['category'],
+        pHeight: doneDataMap!['height'],
+        pWidth:doneDataMap!['width'],
+      );
+      data =dataMap!['data']; /// for list of data
+      for(int x=0;x<data!.length;x++)
+        products[x]=Products(
+          pCode: data![x]['productCode'],
+          pTitle:data![x]['productName'],
+          pColor: data![x]['productColor'],
+          classColor: data![x]['classColor'],
+          pCategory: data![x]['category'],
+          pHeight: data![x]['height'],
+          pWidth:data![x]['width'],
+        );
+    }
+  }
   TextEditingController heightController=TextEditingController();
   TextEditingController widthController=TextEditingController();
   TextEditingController barcodeController=TextEditingController();
@@ -126,16 +174,16 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                     hintText: selectedCategory.tr,
                     items: List.generate(
                       //categories.length,
-                      productsData.length,
+                      products.length,
                           (index) => DropdownMenuItem(
                           onTap: () {
                             setState(() {
                               selectedCategory =
-                                  productsData[index].pCategory;
+                                  products[index].pCategory;
                             });
                           },
                           value: 1,
-                          child: Text( productsData[index].pCategory,
+                          child: Text( products[index].pCategory,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14.sp))),
@@ -152,15 +200,15 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                           onTap: () {},
                           hintText: selectedProduct.tr,
                           items: List.generate(
-                            productsData.length,
+                            products.length,
                                 (index) => DropdownMenuItem(
                                 onTap: () {
                                   setState(() {
-                                    selectedProduct =  productsData[index].pTitle;
+                                    selectedProduct =  products[index].pTitle;
                                   });
                                 },
                                 value: 1,
-                                child: Text( productsData[index].pTitle,
+                                child: Text( products[index].pTitle,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14.sp))),
@@ -211,16 +259,16 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                       hintText:
                       productColor.tr,
                       items: List.generate(
-                        productsData.length,
+                        products.length,
                             (index) => DropdownMenuItem(
                             onTap: () {
                               setState(() {
                                 productColor =
-                                    productsData[index].pColor;
+                                    products[index].pColor;
                               });
                             },
                             value: 1,
-                            child: Text( productsData[index].pColor,
+                            child: Text( products[index].pColor,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14.sp))),
@@ -237,15 +285,15 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                       selectedClassColor.tr,
                       //  : "Place".tr,
                       items: List.generate(
-                        productsData.length,
+                        products.length,
                             (index) => DropdownMenuItem(
                             onTap: () {
                               setState(() {
-                                selectedClassColor =  productsData[index].classColor;
+                                selectedClassColor =  products[index].classColor;
                               });
                             },
                             value: 1,
-                            child: Text( productsData[index].classColor,
+                            child: Text( products[index].classColor,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14.sp))),
@@ -850,11 +898,7 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
   double confidenceThreshold = 0.5;
 
   late List<CameraDescription> cameras;
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
+
 
   Future<void> init() async {
     try {
