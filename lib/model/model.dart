@@ -40,6 +40,7 @@
 //
 //   }
 // ];
+import 'package:doorsandwindows/model/client.dart';
 import 'package:doorsandwindows/model/products.dart';
 import 'package:doorsandwindows/model/users.dart';
 import 'package:get/get.dart';
@@ -124,18 +125,24 @@ List<Products> productsData = [
 ];
 List<Clients> clientData=[
   const Clients(
+      lat: 0.0,
+      lang: 0.0,
       name: "Ahmed Hantop",
       address: "El-dahia",
       phoneNumber: "0555341333",
       email: "ahmed@gmail.com",
       profileImage: "assets/images/profile.png"),
   const Clients(
+      lat: 0.0,
+      lang: 0.0,
       name: "Mohamad Hosny",
       address: "El-badia",
       phoneNumber: "0595333787",
       email: "mohamad@gmail.com",
       profileImage: "assets/images/profile.png"),
   const Clients(
+    lat: 0.0,
+      lang: 0.0,
       name: "Mohamed ahmed",
       address: "El-jalawya",
       phoneNumber: "0536864333",

@@ -28,12 +28,13 @@ class MyApp extends StatelessWidget {
     splitScreenMode: true,
     // Use builder only if you need to use library outside ScreenUtilInit context
     builder: (_, child) {
-    return GetMaterialApp(
-    theme: ThemeData(
-    appBarTheme: const AppBarTheme(
-    backgroundColor: ColorApp.backgroundColor,
-    ),
-    scaffoldBackgroundColor: ColorApp.backgroundColor),
+    return const GetMaterialApp(
+    //theme: ThemeData(
+    // appBarTheme: const AppBarTheme(
+    // backgroundColor: ColorApp.backgroundColor,
+    // ),
+    // scaffoldBackgroundColor: ColorApp.backgroundColor
+    // ),
     debugShowCheckedModeBanner: false,
     //! I used this route to navigate between screens because it’s better
     //initialRoute: '/LoginPage',

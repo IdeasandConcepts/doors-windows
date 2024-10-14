@@ -1,8 +1,8 @@
 
 import 'package:camera/camera.dart';
+import 'package:doorsandwindows/model/client.dart';
 import 'package:doorsandwindows/model/model.dart';
 import 'package:doorsandwindows/model/request.dart';
-import 'package:doorsandwindows/model/users.dart';
 import 'package:doorsandwindows/src/components/consts.dart';
 import 'package:doorsandwindows/src/screens/products/products_list.dart';
 import 'package:doorsandwindows/src/widgets/drop_down_menu.dart';
@@ -65,16 +65,17 @@ TextEditingController barcodeController=TextEditingController();
         children: <Widget>[
 
           Card(
+            color: Color(hexStringToHexInt(('#ffffff'),)),
             child: Container(
               child: Column(
                 children: <Widget>[
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 4.h),
                   Container(
                     decoration: BoxDecoration(
                         color:Colors.grey.withOpacity(0.5),
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(25),
-                          topRight: Radius.circular(25),
+                          topLeft: Radius.circular(4),
+                          topRight: Radius.circular(4),
                           // topLeft: Border().circular(20)
                         )
                     ),
@@ -93,7 +94,8 @@ TextEditingController barcodeController=TextEditingController();
                       ],
                     ),
                   ),
-                  /// Market DropdownButton
+                  SizedBox(height: 10.h,),
+                  /// category DropdownButton
                 CustomDropdownButton(
                   height:40,
                   width: 350,
@@ -117,13 +119,14 @@ TextEditingController barcodeController=TextEditingController();
                                   fontSize: 14.sp))),
                     ),
                   ),
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 10.h),
                   /// Market DropdownButton
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       CustomDropdownButton(
                         height:40,
-                          width: 170,
+                          width: 175,
                           onChanged: (value) {},
                           onTap: () {},
                           hintText: selectedProduct.tr,
@@ -151,8 +154,10 @@ TextEditingController barcodeController=TextEditingController();
                               height: 40.h,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: const Color(0xffEAE9E9),
-                                  borderRadius: BorderRadius.all(Radius.circular(10.r))),
+                                border: Border.all(),
+                                  color: Color(hexStringToHexInt(('#FBFBFB'),)),
+                                  //Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(4.r))),
                               child: TextField(
                                 controller: barcodeController,
                                 decoration: InputDecoration(
@@ -176,7 +181,7 @@ TextEditingController barcodeController=TextEditingController();
                     ],
                   ),
 
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 10.h),
 
                   /// Merchandisers DropdownButton
                   CustomDropdownButton(
@@ -201,17 +206,14 @@ TextEditingController barcodeController=TextEditingController();
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14.sp))),
                       )),
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 10.h),
                   CustomDropdownButton(
                       height:40,
                       width: 350.w,
                       onChanged: (value) {},
                       onTap: () {},
                       hintText:
-                      // (selectedPlace != "")
-                      //     ?
                       selectedClassColor.tr,
-                        //  : "Place".tr,
                       items: List.generate(
                         productsData.length,
                             (index) => DropdownMenuItem(
@@ -244,8 +246,8 @@ TextEditingController barcodeController=TextEditingController();
                               height: 40.h,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: const Color(0xffEAE9E9),
-                                  borderRadius: BorderRadius.all(Radius.circular(10.r))),
+                                  color:  Color(hexStringToHexInt(('#FBFBFB'),)),
+                                  borderRadius: BorderRadius.all(Radius.circular(4.r))),
                               child: TextField(
                                 controller: widthController,
                                 keyboardType: TextInputType.number,
@@ -279,8 +281,8 @@ TextEditingController barcodeController=TextEditingController();
                               height: 40.h,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: const Color(0xffEAE9E9),
-                                  borderRadius: BorderRadius.all(Radius.circular(10.r))),
+                                  color:  Color(hexStringToHexInt(('#FBFBFB'),)),
+                                  borderRadius: BorderRadius.all(Radius.circular(4.r))),
                               child: TextField(
                                 controller: heightController,
                                 keyboardType: TextInputType.number,
@@ -294,11 +296,6 @@ TextEditingController barcodeController=TextEditingController();
                                 onChanged: (value){
                                   setState(() {
                                     productHeight= double.parse(heightController.text);
-
-                                    // getId();
-                                    // searchResult=value;
-                                    // runFilter(value);
-                                    // searchResult=value;
                                   });
                                 },
                                 onSubmitted: (newValue){
@@ -339,7 +336,7 @@ TextEditingController barcodeController=TextEditingController();
                               decoration: BoxDecoration(
                                   color:Color(hexStringToHexInt(('#23317C'),)),
                                   border:Border.all(),
-                                  borderRadius: BorderRadius.circular(5)),
+                                  borderRadius: BorderRadius.circular(4)),
                               width:125.w,
                               //double.infinity,
                               height: 40.h,
@@ -410,7 +407,7 @@ TextEditingController barcodeController=TextEditingController();
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Add another Product".tr,
+                          "Add Product".tr,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,

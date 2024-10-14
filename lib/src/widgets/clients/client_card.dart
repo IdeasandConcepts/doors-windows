@@ -1,5 +1,5 @@
 
-import 'package:doorsandwindows/model/users.dart';
+import 'package:doorsandwindows/model/client.dart';
 import 'package:doorsandwindows/src/screens/products/add_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,15 +52,17 @@ class _ClientCardState extends State<ClientCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left:5.0,right: 5.0,top: 5.0),
+      padding: const EdgeInsets.only(left:10.0,right: 10.0,top: 5.0),
       child: Container(
         height: 200,
         decoration: BoxDecoration(
           border: Border.all(),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(4),
           color: Colors.white,
         ),
         child: Row(
+          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
         Padding(
           padding: const EdgeInsets.only(left:5.0,right: 5.0),
@@ -162,8 +164,8 @@ class _ClientCardState extends State<ClientCard> {
                                   color: Colors.white,
                                 ),
                               ),
-                              Icon(Icons.edit_note,
-
+                              Icon(  (widget.clientType=="New")?
+                                Icons.add:Icons.edit_note,
                               size: 30,color: Colors.white,
                               )
                             ],
@@ -183,14 +185,14 @@ class _ClientCardState extends State<ClientCard> {
                   right: 5.0),
               child: Container(
                 color: Colors.white,
-               // height: 220,
+                height: 220,
                 width: 190,
                 child: ListView(
                   shrinkWrap: true,
                   // controller: _scrollController,
                   children: [
                     buildField(widget.client.name,40),
-                    buildField(widget.client.address,45),
+                    buildField(widget.client.address,50),
                     buildField(widget.client.phoneNumber,40),
                     buildField(widget.client.email,40),
                   ],
@@ -210,14 +212,13 @@ class _ClientCardState extends State<ClientCard> {
           padding: EdgeInsets.only(
           top:5.h,right: 5.h,left: 5.h,bottom: 10.h),
       decoration: BoxDecoration(
-         // color:Color(hexStringToHexInt(('#1C3DED'),)),
       border:Border.all(),
-      borderRadius: BorderRadius.circular(5)),
+      borderRadius: BorderRadius.circular(4)),
        width: 60,
       height: hieght,
       child:
       Text(
-                fieldName.tr.toUpperCase(),
+                fieldName.tr,
                 style: TextStyle(
                     color: Colors.black,
                    // fontWeight: FontWeight.bold,

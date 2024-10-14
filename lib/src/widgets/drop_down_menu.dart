@@ -30,12 +30,15 @@ class CustomDropdownButton extends StatelessWidget {
       //50.h,
       margin: EdgeInsets.symmetric(horizontal: 10.w),
       decoration: BoxDecoration(
-          color: const Color(0xffF6F6F6),
-          borderRadius: BorderRadius.circular(11.r)),
+        border: Border.all(),
+          color:  Color(hexStringToHexInt(('#FBFBFB'),)),
+          // const Color(0xF6F6F6),
+          borderRadius: BorderRadius.circular(4.r)),
       child: Material(
-        borderRadius: BorderRadius.circular(11.r),
-        elevation: 15,
-        color: const Color(0xffF6F6F6),
+  color:  Color(hexStringToHexInt(('#FBFBFB'),)),
+    borderRadius: BorderRadius.circular(4.r),
+        //elevation: 10,
+       // color: const Color(0xffF6F6F6),
         child: DropdownButton(
           borderRadius: BorderRadius.circular(15.r),
           dropdownColor: const Color(0xffF6F6F6),
@@ -54,5 +57,11 @@ class CustomDropdownButton extends StatelessWidget {
         ),
       ),
     );
+  }
+  hexStringToHexInt(String hex) {
+    hex = hex.replaceFirst('#', '');
+    hex = hex.length == 6 ? 'ff' + hex : hex;
+    int val = int.parse(hex, radix: 16);
+    return val;
   }
 }
