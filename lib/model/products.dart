@@ -9,8 +9,10 @@ class Products {
   final String pCategory;
   final double pHeight;
   final double pWidth;
+  final int quantity;
 
   const Products({
+    required this.quantity,
     required this.pCode,
     required this.pTitle,
     required this.pColor,
@@ -21,6 +23,7 @@ class Products {
   });
   Map<String, dynamic> toMap() {
     return {
+      'quantity':quantity,
       "product_code":pCode,
       "product_color":pColor,
       "product_title": pTitle,
@@ -33,6 +36,7 @@ class Products {
 
   factory Products.fromMap(Map<String, dynamic> map) {
     return Products(
+      quantity: map['quantity'],
       pCode: map["product_code"],
       pColor:map["product_color"],
       pTitle: map['product_title'],
@@ -44,6 +48,7 @@ class Products {
   }
 
   Products copyWith({
+    int? quantity,
      String? pTitle,
      String? pCode,
      String? pColor,
@@ -54,6 +59,7 @@ class Products {
 
   }) {
     return Products(
+      quantity: quantity ?? this.quantity,
       pTitle: pTitle ?? this.pTitle,
       pCategory: pCategory ?? this.pCategory,
       pCode: pCode ?? this.pCode,
@@ -65,3 +71,5 @@ class Products {
     );
   }
 }
+
+List<Products> products=[];

@@ -8,8 +8,10 @@ class Clients {
   final String profileImage;
   final double lat,lang;
   final String employeeId;
+  final String clientId;
 
   const Clients({
+    required this.clientId,
     required this.employeeId,
     required this.name,
     required this.address,
@@ -22,6 +24,7 @@ class Clients {
   });
   Map<String, dynamic> toMap() {
     return {
+      'client_id':clientId,
       'employee_id':employeeId,
       'latitute':lat,
       'langitute':lang,
@@ -35,6 +38,7 @@ class Clients {
 
   factory Clients.fromMap(Map<String, dynamic> map) {
     return Clients(
+      clientId: map['client_id'],
       employeeId: map['employee_id'],
       lang: map['langitute'],
       lat: map['latitute'],
@@ -48,6 +52,7 @@ class Clients {
   }
 
   Clients copyWith({
+    String? clientId,
     String? employeeId,
     double? lat,
     double? lang,
@@ -59,6 +64,7 @@ class Clients {
 
   }) {
     return Clients(
+      clientId: clientId ?? this.clientId,
       employeeId: employeeId?? this.employeeId,
       lang: lang ?? this.lang,
       lat: lat ?? this.lat,

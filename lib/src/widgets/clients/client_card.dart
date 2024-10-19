@@ -1,5 +1,7 @@
 
 import 'package:doorsandwindows/model/client.dart';
+import 'package:doorsandwindows/model/request.dart';
+import 'package:doorsandwindows/src/screens/orders/orders_list.dart';
 import 'package:doorsandwindows/src/screens/products/add_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,10 +10,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClientCard extends StatefulWidget {
+ final String empolyeeId;
+  final String token;
   final Clients client;
   final String clientType;
   const ClientCard({super.key, required this.client,
-    required this.clientType});
+
+    required this.clientType, required this.empolyeeId, required this.token});
 
   @override
   State<ClientCard> createState() => _ClientCardState();
@@ -133,13 +138,16 @@ class _ClientCardState extends State<ClientCard> {
                         if(widget.clientType=="New")
                         Get.to(()=>AddProductsScreen(
                           selectedClient: widget.client,
+                          employeeId: widget.empolyeeId,
+                          token: widget.token,
                         ));
                         else if(widget.clientType=="Old")
                           {
-                          Get.defaultDialog(
-                            title: "",
-
-
+                          Get.to(()=>OrdersListScreen(
+                            order: userCartRequests[0],
+                              selectedClient: widget.client,
+                              token: widget.token,
+                              employeeId: widget.empolyeeId)
                           );
                           }
                       },

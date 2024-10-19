@@ -1,16 +1,13 @@
-
 import 'dart:convert';
-
+import 'package:doorsandwindows/model/client.dart';
+import 'package:doorsandwindows/model/products.dart';
 import 'package:doorsandwindows/src/components/consts.dart';
 import 'package:doorsandwindows/src/components/default_button.dart';
 import 'package:doorsandwindows/src/screens/clients/clients.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:http/http.dart' as http;
-
-import 'controller/shared/shared_prefrances.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,18 +22,22 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formkey = GlobalKey<FormState>();
   late String idstr, passwordstr;
 
-  bool _obscureText=false;
-  void toggle(){
+  bool _obscureText = false;
+  void toggle() {
     setState(() {
-      _obscureText=!_obscureText;
+      _obscureText = !_obscureText;
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+        //(isLoading==false)?
+        Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color:kprimaryColor,
+          color: kprimaryColor,
+          padding: EdgeInsets.only(left: 20.w,right: 20.w),
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 0.65.sh,
                 decoration: BoxDecoration(
                     borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(35.r)),
+                        BorderRadius.vertical(bottom: Radius.circular(35.r)),
                     image: const DecorationImage(
                       image: AssetImage("assets/images/appBackground.jpeg"),
                       fit: BoxFit.cover,
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding:  EdgeInsets.only(left:15.h,right: 15.h),
+                              padding: EdgeInsets.only(left: 15.h, right: 15.h),
                               child: Container(
                                 child: Image.asset(
                                   "assets/images/img.png",
@@ -94,16 +95,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             //     )
                             //   ],
                             // ),
-                             SizedBox(height: 20.h),
+                            SizedBox(height: 20.h),
                             Material(
                                 elevation: 15,
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.w),
                                   width: 300.w,
-                                  height:  60.h,
+                                  height: 60.h,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular( 20),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: TextFormField(
                                     // maxLines: 1,
@@ -111,19 +113,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                     controller: emailController,
                                     // controller: username,
                                     decoration: InputDecoration(
-                                      contentPadding:
-                                      EdgeInsets.symmetric(
+                                      contentPadding: EdgeInsets.symmetric(
                                           vertical: 8, horizontal: 10),
                                       //prefixIcon: Icon(Icons.person),
-                                        //(idcontroller.text=="")
-                                        suffixIcon:
-                                        (emailController.text!="")?
-                                        IconButton(
-                                        onPressed: (){
-                                          //toggle();
-                                        },
-                                        icon: Icon(Icons.check,color: kprimaryColor,),
-                                      ):null,
+                                      //(idcontroller.text=="")
+                                      suffixIcon: (emailController.text != "")
+                                          ? IconButton(
+                                              onPressed: () {
+                                                //toggle();
+                                              },
+                                              icon: Icon(
+                                                Icons.check,
+                                                color: kprimaryColor,
+                                              ),
+                                            )
+                                          : null,
                                       border: InputBorder.none,
                                       labelText: "User name".tr,
                                       hintStyle: TextStyle(
@@ -143,16 +147,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: 29.h),
 
                             Material(
-                              //color:kBackgroundColor,
+                                //color:kBackgroundColor,
                                 borderRadius: BorderRadius.circular(0),
                                 elevation: 15,
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.w),
                                   width: 300.w,
-                                  height:  60.h,
+                                  height: 60.h,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular( 0),
+                                    borderRadius: BorderRadius.circular(0),
                                     //color: const Color(0xffF6F6F6),
                                   ),
                                   child: TextFormField(
@@ -161,15 +166,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     controller: passwordController,
                                     // controller: username,
                                     decoration: InputDecoration(
-                                      contentPadding:
-                                      EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 10),
                                       // floatingLabelBehavior: FloatingLabelBehavior.always,
                                       //prefixIcon: Icon(Icons.lock,color: Colors.black,),
                                       suffixIcon: IconButton(
-                                        onPressed: (){
+                                        onPressed: () {
                                           toggle();
                                         },
-                                        icon: Icon(Icons.visibility,color: Colors.black,),
+                                        icon: Icon(
+                                          Icons.visibility,
+                                          color: Colors.black,
+                                        ),
                                       ),
                                       border: InputBorder.none,
                                       labelText: "Password".tr,
@@ -194,14 +202,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 )),
                             SizedBox(height: 51.h),
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 _signIn();
-                               // if (_formkey.currentState?.validate() == true)
-                                  //_formkey.currentState?.save();
+                                // if (_formkey.currentState?.validate() == true)
+                                //_formkey.currentState?.save();
                                 // {
                                 //   try {
-
-
                               },
                               child: DefualtButton(
                                 text: "LOGIN".tr,
@@ -222,13 +228,17 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
+    )
+        // :LinearProgressIndicator()
+        ;
   }
-  //! the Function Sing In => Api
-  Map<String,dynamic>? dataMap;
-  Map<String,dynamic>? doneDataMap;
-  List<dynamic>? data;
 
+  //! the Function Sing In => Api
+  Map<String, dynamic>? dataMap;
+  Map<String, dynamic>? doneDataMap;
+  List<dynamic>? data;
+  String? employeeId;
+  String token = "";
   _signIn() async {
     final body = json.encode({
       "email": emailController.text,
@@ -240,31 +250,18 @@ class _LoginScreenState extends State<LoginScreen> {
       body: body,
     );
     if (response.statusCode == 200) {
-      dataMap=jsonDecode(response.body);
-      doneDataMap=dataMap!['data'];
-    data=doneDataMap!['assignedClients'];
-    /// for single data
-      /// print data
-      print(doneDataMap.toString());
-      // print(doneDataMap!['assignedClients']);
-      // print(doneDataMap!['id'].toString());
-      // print(doneDataMap!['id'].toString());
-      // print(doneDataMap!['id'].toString());
+      dataMap = jsonDecode(response.body);
+      doneDataMap = dataMap!['data'];
+      token = dataMap!['token'];
+      data = doneDataMap!['assignedClients'];
+      employeeId = doneDataMap!['_id'];
 
-      // var errorResponse = json.decode(response.body);
-      // var errorMessage = errorResponse['data']['_id'];
-      // print(errorMessage);
-      // print(response.statusCode);
-      // print('Success');
-
-      emailController.clear();
-      passwordController.clear();
-      Get.offAll(ClientsScreen(
-      //   clientsId: data!,
-      // employeeId:doneDataMap!['_id'],
-      ));
-      // ignore: use_build_context_synchronously
-     // Navigator.pushNamed(context, '/SigninPage');
+      fetchProductData(token);
+      //if (products.isNotEmpty)
+        Get.offAll(() => ClientsScreen(
+              token: token,
+              employeeId: doneDataMap!['_id'],
+            ));
     } else {
       var errorResponse = json.decode(response.body);
       var errorMessage = errorResponse["errors"][0]["msg"];
@@ -276,4 +273,78 @@ class _LoginScreenState extends State<LoginScreen> {
       print('Error');
     }
   }
+
+  Future<List<dynamic>> fetchProductData(String token) async {
+    // final String url = 'https://doors-windowsbackend.onrender.com/api/products';
+    final response = await http.get(
+      Uri.parse('${baseUrl}/api/products'),
+      headers: {
+        'Authorization': 'Bearer ${token}',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+     // print(json.decode(response.body)['products']);
+      //setState(() {
+      productsDoneDataMap = json.decode(response.body)['products'];
+
+      products = [];
+        for(int x=0;x<productsDoneDataMap!.length;x++)
+        {
+          products.add(
+              Products(
+                quantity: 1,
+                  pCategory :(productsDoneDataMap![x]["pCategory"]!=null)?
+                  productsDoneDataMap![x]["pCategory"].toString():"",
+
+                  pCode: (productsDoneDataMap![x]["pCode"]!=null)?
+                  productsDoneDataMap![x]["pCode"].toString():"",
+
+                pTitle:(productsDoneDataMap![x]["pTitle"]!=null)?
+                productsDoneDataMap![x]["pTitle"].toString():"",
+
+                  classColor:(productsDoneDataMap![x]["classColor"]!=null)?
+                  productsDoneDataMap![x]["classColor"].toString():"",
+
+                  pColor:(productsDoneDataMap![x]["pColor"]!=null)?
+                  productsDoneDataMap![x]["pColor"].toString():"",
+
+                  pHeight : (productsDoneDataMap![x]["pHeight"]!=null)?
+                productsDoneDataMap![x]["pHeight"].toDouble():"",
+
+                pWidth: (productsDoneDataMap![x]["pWidth"]!=null)?
+                  productsDoneDataMap![x]["pWidth"].toDouble():0.0,
+
+              ));
+
+
+          print(products[x].pCategory,);
+          print(products[x].pCode);
+          print( products[x].pTitle);
+          print( products[x].classColor.toString(),);
+          print(products[x].pColor.toString(),);
+          print((products[x].pHeight).toDouble());
+          print((products[x].pWidth).toDouble());
+print("_____________________");
+        }
+     // });
+
+      if (products.isNotEmpty) {
+        //print(productsDoneDataMap![x]["pCategory"].toString(),);
+        setState(() {
+           isLoading=true;
+        });
+      }
+      return json.decode(response.body)['products'];  // Adjust according to the API structure
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Map<String, dynamic>? productsDataMap;
+  List<dynamic>? productsDoneDataMap;
+  List<dynamic>? productsData;
+
+   bool isLoading = false;
 }

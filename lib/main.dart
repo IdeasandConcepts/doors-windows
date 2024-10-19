@@ -11,42 +11,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await initialServices();
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  /// This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         designSize: const Size(360, 690),
     minTextAdapt: true,
     splitScreenMode: true,
-    // Use builder only if you need to use library outside ScreenUtilInit context
+    /// Use builder only if you need to use library outside ScreenUtilInit context
     builder: (_, child) {
     return const GetMaterialApp(
-    //theme: ThemeData(
-    // appBarTheme: const AppBarTheme(
-    // backgroundColor: ColorApp.backgroundColor,
-    // ),
-    // scaffoldBackgroundColor: ColorApp.backgroundColor
-    // ),
     debugShowCheckedModeBanner: false,
-    //! I used this route to navigate between screens because it’s better
-    //initialRoute: '/LoginPage',
     home:
-    //ProductsListScreen()
-    //AddProductsScreen()
-    ClientsScreen(
-    //  employeeId: "",
-    )
-   // LoginScreen(),
-    //onGenerateRoute: RouteGenerator.generateRoute,
-      //MyHomePage(title: 'Flutter Demo Home Page'),
+    LoginScreen(),
     );
   });
 }}
