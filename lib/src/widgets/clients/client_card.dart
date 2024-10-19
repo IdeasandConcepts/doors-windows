@@ -8,10 +8,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ClientCard extends StatefulWidget {
+ final String empolyeeId;
+  final String token;
   final Clients client;
   final String clientType;
   const ClientCard({super.key, required this.client,
-    required this.clientType});
+
+    required this.clientType, required this.empolyeeId, required this.token});
 
   @override
   State<ClientCard> createState() => _ClientCardState();
@@ -133,6 +136,8 @@ class _ClientCardState extends State<ClientCard> {
                         if(widget.clientType=="New")
                         Get.to(()=>AddProductsScreen(
                           selectedClient: widget.client,
+                          employeeId: widget.empolyeeId,
+                          token: widget.token,
                         ));
                         else if(widget.clientType=="Old")
                           {

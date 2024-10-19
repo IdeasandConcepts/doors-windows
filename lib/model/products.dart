@@ -65,3 +65,5 @@ class Products {
     );
   }
 }
+
+List<Products> products=[];

@@ -1,40 +1,44 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'dart:convert';
 
 import 'package:doorsandwindows/model/client.dart';
 import 'package:doorsandwindows/model/products.dart';
-import 'package:doorsandwindows/model/request.dart';
 import 'package:flutter/foundation.dart';
 
 class Orders {
 
 
-  final List<Products> product;
+  final List<Products> products;
   final Clients client;
   final String employeeName;
+  final String status;
 
 
-  Orders( {
-    required this.product,
+  Orders(  {
+    required this.status,
+    required this.products,
     required this.client,
     required this.employeeName
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'status':status,
       'client': client,
-      'product': product.map((x) => x.toMap()).toList(),
+      'products': products.map((x) => x.toMap()).toList(),
       'employee_name': employeeName,
+
 
     };
   }
 
   factory Orders.fromMap(Map<String, dynamic> map) {
     return Orders(
+      status: map['statsus'],
       client: map['client'] ?? '',
       employeeName: map['employee_name'] as String,
-      product: List<Products>.from(
-        (map['requests'] as List).map<Products>(
+      products: List<Products>.from(
+        (map['products'] as List).map<Products>(
               (x) => Products.fromMap(x as Map<String, dynamic>),
         ),
       ),
@@ -42,15 +46,19 @@ class Orders {
   }
 
   Orders copyWith({
+    String? status,
     String? employeeName,
     List<Products>? product,
     Clients? client,
 
   }) {
     return Orders(
+      status: status ?? this.status,
         client: client ?? this.client,
         employeeName: employeeName ?? this.employeeName,
-        product: product?? this.product
+        products: products??
+
+            this.products
       //deliveryMethod: deliveryMethod ?? this.deliveryMethod,
     );
   }
@@ -62,7 +70,7 @@ class Orders {
 
   @override
   String toString() {
-    return 'Orders(employee_name: $employeeName,client: $client, product: $product)';
+    return 'Orders(employee_name: $employeeName,status:$status client: $client, products: $products)';
   }
 
   @override
@@ -71,14 +79,16 @@ class Orders {
 
     return other.employeeName == employeeName &&
         other.client == client &&
-        listEquals(other.product, product) ;
+        other.status == status &&
+        listEquals(other.products, products) ;
   }
 
   @override
   int get hashCode {
     return employeeName.hashCode ^
+    status.hashCode ^
     client.hashCode ^
-    product.hashCode ;
+    products.hashCode ;
 
   }
 }

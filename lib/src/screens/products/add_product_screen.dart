@@ -15,7 +15,14 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 class AddProductsScreen extends StatefulWidget {
   final Clients selectedClient;
-  const AddProductsScreen({super.key, required this.selectedClient});
+  final String token;
+  final String employeeId;
+  const AddProductsScreen({super.key,
+    required this.selectedClient,
+    required this.token,
+    required this.employeeId,
+
+  });
 
   @override
   State<AddProductsScreen> createState() => _AddProductsScreenState();
@@ -23,51 +30,56 @@ class AddProductsScreen extends StatefulWidget {
 
 class _AddProductsScreenState extends State<AddProductsScreen> {
 
-  @override
+
+bool isLoading=false;
+@override
   void initState() {
-    super.initState();
-readProducts();
-    init();
-  }
-
-
-  Products? product;
-  List<Products> products=[];
-  Map<String,dynamic>? dataMap;
-  Map<String,dynamic>? doneDataMap;
-  List<dynamic>? data;
-
-  Future readProducts () async {
-    http.Response response ;
-    response= await http.get(Uri.parse('${{baseUrl}}/api/products'));
-
-    if(response.statusCode==200)
+    // TODO: implement initState
+  if(products.isNotEmpty)
     {
-      dataMap=jsonDecode(response.body);
-      doneDataMap=dataMap!['data'];/// for single data
-
-      product=Products(
-        pCode: doneDataMap!['productCode'],
-        pTitle:doneDataMap!['productName'],
-        pColor: doneDataMap!['productColor'],
-        classColor: doneDataMap!['classColor'],
-        pCategory: doneDataMap!['category'],
-        pHeight: doneDataMap!['height'],
-        pWidth:doneDataMap!['width'],
-      );
-      data =dataMap!['data']; /// for list of data
-      for(int x=0;x<data!.length;x++)
-        products[x]=Products(
-          pCode: data![x]['productCode'],
-          pTitle:data![x]['productName'],
-          pColor: data![x]['productColor'],
-          classColor: data![x]['classColor'],
-          pCategory: data![x]['category'],
-          pHeight: data![x]['height'],
-          pWidth:data![x]['width'],
-        );
+      setState(() {
+        isLoading=true;
+      });
     }
+    super.initState();
   }
+  // Products? product;
+  // List<Products> products=[];
+  // Map<String,dynamic>? dataMap;
+  // Map<String,dynamic>? doneDataMap;
+  // List<dynamic>? data;
+  //
+  // Future readProducts () async {
+  //   http.Response response ;
+  //   response= await http.get(Uri.parse('${{baseUrl}}/api/products'));
+  //
+  //   if(response.statusCode==200)
+  //   {
+  //     dataMap=jsonDecode(response.body);
+  //     doneDataMap=dataMap!['data'];/// for single data
+  //
+  //     product=Products(
+  //       pCode: doneDataMap!['productCode'],
+  //       pTitle:doneDataMap!['productName'],
+  //       pColor: doneDataMap!['productColor'],
+  //       classColor: doneDataMap!['classColor'],
+  //       pCategory: doneDataMap!['category'],
+  //       pHeight: doneDataMap!['height'],
+  //       pWidth:doneDataMap!['width'],
+  //     );
+  //     data =dataMap!['data']; /// for list of data
+  //     for(int x=0;x<data!.length;x++)
+  //       products[x]=Products(
+  //         pCode: data![x]['productCode'],
+  //         pTitle:data![x]['productName'],
+  //         pColor: data![x]['productColor'],
+  //         classColor: data![x]['classColor'],
+  //         pCategory: data![x]['category'],
+  //         pHeight: data![x]['height'],
+  //         pWidth:data![x]['width'],
+  //       );
+  //   }
+  //}
 
   TextEditingController heightController=TextEditingController();
 TextEditingController widthController=TextEditingController();
@@ -111,12 +123,13 @@ TextEditingController barcodeController=TextEditingController();
           ]
 
       ),
-      body: ListView(
+      body: (isLoading==true)?
+      ListView(
         shrinkWrap: true,
         children: <Widget>[
 
           Card(
-            color: Color(hexStringToHexInt(('#ffffff'),)),
+            color: Color(hexStringToHexInt(('#efffff'),)),
             child: Container(
               child: Column(
                 children: <Widget>[
@@ -188,6 +201,7 @@ TextEditingController barcodeController=TextEditingController();
                                 onTap: () {
                                   setState(() {
                                     selectedProduct =  products[index].pTitle;
+                                    productCode=products[index].pCode;
                                   });
                                 },
                                 value: 1,
@@ -202,7 +216,7 @@ TextEditingController barcodeController=TextEditingController();
                             elevation: 10,
                             borderRadius: BorderRadius.all(Radius.circular(10.r)),
                             child: Container(
-                              width: 140.w,
+                              width: 135.w,
                               height: 40.h,
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
@@ -210,7 +224,7 @@ TextEditingController barcodeController=TextEditingController();
                                   color: Color(hexStringToHexInt(('#FBFBFB'),)),
                                   //Colors.white,
                                   borderRadius: BorderRadius.all(Radius.circular(4.r))),
-                              child: TextField(
+                              child: (selectedProduct=="Product")?TextField(
                                 controller: barcodeController,
                                 decoration: InputDecoration(
                                   hintText: "Barcode".tr,
@@ -227,7 +241,7 @@ TextEditingController barcodeController=TextEditingController();
                                   setState(() {
                                   });
                                 },
-                              ),
+                              ):Text(productCode),
                             ),)
                       ),
                     ],
@@ -374,10 +388,10 @@ TextEditingController barcodeController=TextEditingController();
                                 content: Container(
                                   height: 400,
                                   width: 400,
-                                  child: AspectRatio(
-                                    aspectRatio: controller.value.aspectRatio,
-                                    child: CameraPreview(controller),
-                                  ),
+                                  // child: AspectRatio(
+                                  //   aspectRatio: controller.value.aspectRatio,
+                                  //   child: CameraPreview(controller),
+                                  // ),
                                    // ...displayBoxesAroundRecognizedObjects(size),
                                 )
                               );
@@ -432,18 +446,58 @@ TextEditingController barcodeController=TextEditingController();
               child:
               GestureDetector(
                 onTap: (){
-                  userCartRequests.add(
-                    UserRequests(
-                        //pCode: pCode, pTitle: pTitle, pColor: pColor, classColor: classColor, pCategory: pCategory, pHeight: pHeight, pWidth: pWidth)
-                      pCategory: selectedCategory, pWidth: productWidth,
-                      classColor: selectedClassColor, pTitle: selectedProduct,
-                      pColor: productColor, pCode: productCode, pHeight: productHeight
-                    )
 
-                  );
-                  Get.to(()=>ProductsListScreen(
-                      client: widget.selectedClient));
-                },
+                  if(
+                  (selectedProduct!="Product")&&
+                      (selectedCategory!="Category")&&
+                      (productColor!="Product colors")&&
+                      (selectedClassColor!="Class color")&&
+                      (productCode!="77VGJH5F7")&&
+                      (productHeight!=0.0)&&
+                      (productWidth!=0.0)
+                  ) {
+                    userCartRequests.add(
+                        UserRequests(
+
+                         // myProducts:
+                        //  Products(
+                              //pCode: pCode, pTitle: pTitle, pColor: pColor, classColor: classColor, pCategory: pCategory, pHeight: pHeight, pWidth: pWidth),
+                          //pCode: pCode, pTitle: pTitle, pColor: pColor, classColor: classColor, pCategory: pCategory, pHeight: pHeight, pWidth: pWidth)
+                            pCategory: selectedCategory,
+                            pWidth: productWidth,
+                            classColor: selectedClassColor,
+                            pTitle: selectedProduct,
+                            pColor: productColor,
+                            pCode: productCode,
+                            pHeight: productHeight
+                       // )
+                        )
+                    );
+                    Get.to(() =>
+                        ProductsListScreen(
+                          selectedClient: widget.selectedClient,
+                          employeeId: widget.employeeId,
+                          token: widget.token,
+                        ));
+                    setState(() {
+                    selectedProduct="Product";
+                    selectedCategory="Category";
+                        productColor="Product colors";
+                        selectedClassColor="Class color";
+                        productCode="77VGJH5F7";
+                        productHeight=0.0;
+                        productWidth=0.0;
+                    heightController.text="";
+                    widthController.text="";
+
+                    });
+                  }
+                  else{
+                    Get.snackbar(
+                    //dismissDirection:,
+                        'title', "Error \nfill the fields");
+                  }
+                  },
                 child: Container(
                   padding: EdgeInsets.only(
                     right: 5.h,left: 5.h,),
@@ -479,7 +533,8 @@ TextEditingController barcodeController=TextEditingController();
             //  DefualtButton(text: "Add Products", selected: true),
           ),
         ],
-      ),
+      )
+            :CircularProgressIndicator(),
     );
   }
 hexStringToHexInt(String hex) {
@@ -489,39 +544,41 @@ hexStringToHexInt(String hex) {
   return val;
 }
 
-late CameraController controller;
+// late CameraController controller;
+//
+// List<Map<String, dynamic>> yoloResults = [];
+// List<Map<String, dynamic>> allResult = [];
+// CameraImage? cameraImage;
+// bool isLoaded = false;
+// bool isDetecting = false;
+// double confidenceThreshold = 0.5;
+//
+// late List<CameraDescription> cameras;
+//
+//
+// Future<void> init() async {
+//   try {
+//     cameras = await availableCameras();
+//    // vision = FlutterVision();
+//     controller = CameraController(cameras[0], ResolutionPreset.high);
+//     await controller.initialize();
+//    // await loadYoloModel();
+//     setState(() {
+//       isLoaded = true;
+//       isDetecting = false;
+//     });
+//   } catch (e) {
+//     print("Error initializing the camera or loading the model: $e");
+//   }
+// }
 
-List<Map<String, dynamic>> yoloResults = [];
-List<Map<String, dynamic>> allResult = [];
-CameraImage? cameraImage;
-bool isLoaded = false;
-bool isDetecting = false;
-double confidenceThreshold = 0.5;
+// @override
+// void dispose() {
+//   //controller.dispose();
+//   //vision.closeYoloModel();
+//   super.dispose();
+// }
 
-late List<CameraDescription> cameras;
-
-
-Future<void> init() async {
-  try {
-    cameras = await availableCameras();
-   // vision = FlutterVision();
-    controller = CameraController(cameras[0], ResolutionPreset.high);
-    await controller.initialize();
-   // await loadYoloModel();
-    setState(() {
-      isLoaded = true;
-      isDetecting = false;
-    });
-  } catch (e) {
-    print("Error initializing the camera or loading the model: $e");
-  }
-}
-
-@override
-void dispose() {
-  controller.dispose();
-  //vision.closeYoloModel();
-  super.dispose();
-}
+//String employeeId="";
 
 }

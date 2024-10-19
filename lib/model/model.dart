@@ -122,37 +122,37 @@ List<Map<String, dynamic>> component = [
 //       pWidth:200.0
 //   ),
 //
-// ];
-List<Clients> clientData=[
-  const Clients(
-      employeeId:"Adel",
-      lat: 0.0,
-      lang: 0.0,
-      name: "Ahmed Hantop",
-      address: "El-dahia",
-      phoneNumber: "0555341333",
-      email: "ahmed@gmail.com",
-      profileImage: "assets/images/profile.png"),
-  const Clients(
-      employeeId:"Ahmed",
-      lat: 0.0,
-      lang: 0.0,
-      name: "Mohamad Hosny",
-      address: "El-badia",
-      phoneNumber: "0595333787",
-      email: "mohamad@gmail.com",
-      profileImage: "assets/images/profile.png"),
-  const Clients(
-      employeeId:"Omer",
-    lat: 0.0,
-      lang: 0.0,
-      name: "Mohamed ahmed",
-      address: "El-jalawya",
-      phoneNumber: "0536864333",
-      email: "aboahmed@gmail.com",
-      profileImage: "assets/images/profile.png"),
-
-];
+//];
+// List<Clients> clientData=[
+//   const Clients(
+//       employeeId:"Adel",
+//       lat: 0.0,
+//       lang: 0.0,
+//       name: "Ahmed Hantop",
+//       address: "El-dahia",
+//       phoneNumber: "0555341333",
+//       email: "ahmed@gmail.com",
+//       profileImage: "assets/images/profile.png"),
+//   const Clients(
+//       employeeId:"Ahmed",
+//       lat: 0.0,
+//       lang: 0.0,
+//       name: "Mohamad Hosny",
+//       address: "El-badia",
+//       phoneNumber: "0595333787",
+//       email: "mohamad@gmail.com",
+//       profileImage: "assets/images/profile.png"),
+//   const Clients(
+//       employeeId:"Omer",
+//     lat: 0.0,
+//       lang: 0.0,
+//       name: "Mohamed ahmed",
+//       address: "El-jalawya",
+//       phoneNumber: "0536864333",
+//       email: "aboahmed@gmail.com",
+//       profileImage: "assets/images/profile.png"),
+//
+//];
 
 // List<Map<String, dynamic>> burger = [
 //   {

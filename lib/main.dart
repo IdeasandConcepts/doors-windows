@@ -41,10 +41,10 @@ class MyApp extends StatelessWidget {
     home:
     //ProductsListScreen()
     //AddProductsScreen()
-    ClientsScreen(
-    //  employeeId: "",
-    )
-   // LoginScreen(),
+    // ClientsScreen(
+    // //  employeeId: "",
+    // )
+    LoginScreen(),
     //onGenerateRoute: RouteGenerator.generateRoute,
       //MyHomePage(title: 'Flutter Demo Home Page'),
     );

@@ -11,14 +11,15 @@ import 'package:http/http.dart' as http;
 
 
 class ClientsScreen extends StatefulWidget {
-//   final String employeeId;
+   final String employeeId;
 // final List<dynamic>?  clientsId;
-  const ClientsScreen({Key? key,
+final String token;
+  const ClientsScreen({super.key,
     // required this.clientsId,
-    // required this.employeeId,
+     required this.employeeId,
+    required this.token
 
-
-  }) : super(key: key);
+  });
 
   @override
   State<ClientsScreen> createState() => _ClientsScreenState();
@@ -26,63 +27,113 @@ class ClientsScreen extends StatefulWidget {
 
 class _ClientsScreenState extends State<ClientsScreen> with TickerProviderStateMixin {
 
-@override
+bool isLooding =false;
+  @override
   void initState() {
-   readClients(
-      // widget.clientsId!
-   );
+    // TODO: implement initState
+  setState(()  {
+    fetchClientData(
+        widget.token,
+      widget.employeeId
+    );
+
+  });
+
     super.initState();
   }
-  Clients? client;
   List<Clients> clients=[];
-  Map<String,dynamic>? dataMap;
-  Map<String,dynamic>? doneDataMap;
-  List<dynamic>? data;
+  Map<String,dynamic>? clientDataMap;
+  List<dynamic> clientsDoneDataMap=[];
+  List<dynamic>? clientsData;
 
-  Future readClients (
-     // List<dynamic>? clientsId
+
+  Future<List<dynamic>> fetchClientData(
+      String token,String employeeId
       ) async {
-    // final body = json.encode({
-    //   "employeeId":clientsId
-    // });
-    http.Response response = await http.post(
-      Uri.parse('${{baseUrl}}/api/client'),
-
-      headers: {"Content-Type": "application/json"},
-      //body: body,
+    final String url = '${baseUrl}/api/client';
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer ${token}',
+        'Content-Type': 'application/json',
+      },
     );
-    // http.Response response ;
-    // response= await http.get(Uri.parse('${baseUrl}/api/auth/login'));
+    if (response.statusCode == 200) {
+      // Decode the JSON data
+      // print(json.decode(response.body)['data']);
+      clientsDoneDataMap=json.decode(response.body)['data'];
+      print(clientsDoneDataMap![0]['_id']);
+      print(clientsDoneDataMap![0]['assignedEmployee']);
+setState(() {
+  for(int x=0;x<clientsDoneDataMap!.length;x++) {
+    clients.add(
+        Clients(
+            employeeId: clientsDoneDataMap![0]['assignedEmployee'],
+            lat: 0.0,
+            lang: 0.0,
+            // lang: clientsDoneDataMap![x]['langitute'],
+            // lat: clientsDoneDataMap![x]['latitute'],
+            name: clientsDoneDataMap![x]["name"],
+            address: clientsDoneDataMap![x]["address"],
+            phoneNumber: clientsDoneDataMap![x]['phone'],
+            email: clientsDoneDataMap![x]['email'],
+            profileImage: ""
+          //clientsDoneDataMap![x]['profile_image'],
+        ));
+  }
+});
+if(clients.isNotEmpty)
+  {
+    setState(() {
+      isLooding=true;
+    });
 
+  }
+      //print(clientsDoneDataMap.toString());
 
-    if(response.statusCode==200)
-    {
-      dataMap=jsonDecode(response.body);
-      doneDataMap=dataMap!['data']; /// for single data
-print(jsonDecode(response.body).toString());
-      // client=Clients(
-      //   employeeId:doneDataMap!['employee_id'],
-      //   lang: doneDataMap!['langitute'],
-      //   lat: doneDataMap!['latitute'],
-      //   name: doneDataMap!["name"],
-      //   address:doneDataMap!["address"],
-      //   phoneNumber: doneDataMap!['phone_number'],
-      //   email: doneDataMap!['email'],
-      //   profileImage: doneDataMap!['profile_image'],
-      // );
-      // data =dataMap!['data']; /// for list of data
-      // for(int x=0;x<data!.length;x++)
-      //   clients[x]=Clients(
-      //     employeeId:doneDataMap!['employee_id'],
-      //     lang: data![x]['langitute'],
-      //     lat:data![x]['latitute'],
-      //     name:data![x]["name"],
-      //     address:data![x]["address"],
-      //     phoneNumber:data![x]['phone_number'],
-      //     email:data![x]['email'],
-      //     profileImage:data![x]['profile_image'],
-      //   );
+      //  print( clients[x].);
+      // for(int x=0;x<clients.length;x++){
+      //         print( clients[x].name);
+      //         print(clients[x].address);
+      //         print(clients[x].phoneNumber);
+      //         print( clients[x].email);
+      //        }
+      //print(clientsDoneDataMap.toString());
+
+      //      clientsDoneDataMap=json.decode(response.body)['data'];
+      //      for(int x=0;x<clientsDoneDataMap!.length;x++) {
+      //        clients[x] = Clients(
+      //          employeeId: clientsDoneDataMap![x]['assignedEmployee'],
+      //          lat: 0.0,
+      //          lang: 0.0,
+      //          // lang: clientsDoneDataMap![x]['langitute'],
+      //          // lat: clientsDoneDataMap![x]['latitute'],
+      //          name: clientsDoneDataMap![x]["name"],
+      //          address: clientsDoneDataMap![x]["address"],
+      //          phoneNumber: clientsDoneDataMap![x]['phone'],
+      //          email: clientsDoneDataMap![x]['email'],
+      //          profileImage: ""
+      //          //clientsDoneDataMap![x]['profile_image'],
+      //        );
+      //      }
+      filterClientsFun(clients,employeeId);
+      return json.decode(response.body)['data'];
+
+    } else {
+      throw Exception('Failed to load data');
     }
+  }
+  List<Clients> filteredClients=[];
+  void filterClientsFun(List<Clients> allClients,String employeeId){
+    for(int p=0;p<allClients.length;p++)
+    {
+      if(allClients[p].employeeId==employeeId)
+      {
+        filteredClients.add(allClients[p]);
+      }
+    }
+    for(int i=0;i<clients.length;i++)
+      print(clients[i].name);
   }
 
   TextEditingController clientController=TextEditingController();
@@ -115,7 +166,7 @@ leading:   IconButton(
     ]
 
       ),
-    body:
+    body:(isLooding==true)?
       Container(
         height: MediaQuery.of(context).size.height*2,
         child: Column(
@@ -126,7 +177,7 @@ leading:   IconButton(
           controller: tabController,
           indicatorColor: kprimaryColor,
           onTap: update(tabController.index),
-          labelStyle:  TextStyle( fontSize: 18,
+          labelStyle:TextStyle( fontSize: 18,
             color:Colors.white
           ),
           labelColor: kprimaryColor,
@@ -203,28 +254,34 @@ leading:   IconButton(
              children: [
                ListView.builder(
                  //shrinkWrap: true,
-                   itemCount: clientData.length,
+                   itemCount: clients.length,
                    itemBuilder: (context,index){
                      return
                        ClientCard(
+                         empolyeeId: widget.employeeId,
+                         token: widget.token,
                          clientType: "New",
-                         client: clientData[index],
+                         client: clients[index],
                        );
                    }),
                ListView.builder(
                  //shrinkWrap: true,
-                   itemCount: clientData.length-2,
+                   itemCount: clients.length,
                    itemBuilder: (context,index){
                      return
                        ClientCard(
+                         empolyeeId: widget.employeeId,
+                         token: widget.token,
                          clientType:"Old",
-                         client: clientData[index],
+                         client: clients[index],
     );
     }),
     ]
     ))
     ])
-    ));
+    ):
+        CircularProgressIndicator()
+    );
   }
   hexStringToHexInt(String hex) {
     hex = hex.replaceFirst('#', '');
