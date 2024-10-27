@@ -122,7 +122,6 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                 return buildProductCard(
                     //userCartRequests[index].myProducts[index],
                   Products(
-                    quantity: 1,
                       pCode: userCartRequests[index].pCode,
                       pTitle: userCartRequests[index].pTitle,
                       pColor: userCartRequests[index].pColor,
@@ -571,7 +570,6 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                                           for(int p=0;p<userCartRequests.length;p++)
                                             {
                                               myProducts.add(Products(
-                                                quantity: 1,
                                                   pCode: userCartRequests[p].pCode,
                                                   pTitle: userCartRequests[p].pTitle,
                                                   pColor: userCartRequests[p].pColor,
@@ -966,14 +964,8 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
 
   try {
     final body = json.encode({
-
-        "clientId": order.client.name,
-        "employeeId": order.employeeName,
+        "clientId": order.client.employeeId,
         "products": order.products,
-        "status": "pending"
-
-        // "clientId": order.client.employeeId,
-        // "products": order.products,
     });
     http.Response response = await http.post(
       Uri.parse('${baseUrl}/api/order'),

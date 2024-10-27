@@ -71,8 +71,6 @@ setState(() {
             employeeId: clientsDoneDataMap![0]['assignedEmployee'],
             lat: 0.0,
             lang: 0.0,
-            clientId: "gjhgjhg",
-            //clientsDoneDataMap![x]['clientId'],
             // lang: clientsDoneDataMap![x]['langitute'],
             // lat: clientsDoneDataMap![x]['latitute'],
             name: clientsDoneDataMap![x]["name"],
