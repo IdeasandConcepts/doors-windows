@@ -966,14 +966,8 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
 
   try {
     final body = json.encode({
-
-        "clientId": order.client.name,
-        "employeeId": order.employeeName,
+        "clientId": order.client.employeeId,
         "products": order.products,
-        "status": "pending"
-
-        // "clientId": order.client.employeeId,
-        // "products": order.products,
     });
     http.Response response = await http.post(
       Uri.parse('${baseUrl}/api/order'),

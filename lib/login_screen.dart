@@ -37,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Container(
           color: kprimaryColor,
-          padding: EdgeInsets.only(left: 20.w,right: 20.w),
           height: MediaQuery.of(context).size.height,
           child: Stack(
             children: [
@@ -285,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (response.statusCode == 200) {
-     // print(json.decode(response.body)['products']);
+      print(json.decode(response.body)['products']);
       //setState(() {
       productsDoneDataMap = json.decode(response.body)['products'];
 
@@ -295,37 +294,23 @@ class _LoginScreenState extends State<LoginScreen> {
           products.add(
               Products(
                 quantity: 1,
-                  pCategory :(productsDoneDataMap![x]["pCategory"]!=null)?
-                  productsDoneDataMap![x]["pCategory"].toString():"",
-
-                  pCode: (productsDoneDataMap![x]["pCode"]!=null)?
-                  productsDoneDataMap![x]["pCode"].toString():"",
-
-                pTitle:(productsDoneDataMap![x]["pTitle"]!=null)?
-                productsDoneDataMap![x]["pTitle"].toString():"",
-
-                  classColor:(productsDoneDataMap![x]["classColor"]!=null)?
-                  productsDoneDataMap![x]["classColor"].toString():"",
-
-                  pColor:(productsDoneDataMap![x]["pColor"]!=null)?
-                  productsDoneDataMap![x]["pColor"].toString():"",
-
-                  pHeight : (productsDoneDataMap![x]["pHeight"]!=null)?
-                productsDoneDataMap![x]["pHeight"].toDouble():"",
-
-                pWidth: (productsDoneDataMap![x]["pWidth"]!=null)?
-                  productsDoneDataMap![x]["pWidth"].toDouble():0.0,
-
+                  pCategory :productsDoneDataMap![x]["pCategory"].toString(),
+                  pCode  : productsDoneDataMap![x]["pCode"],
+                  pTitle : productsDoneDataMap![x]["pTitle"].toString(),
+                  classColor  : productsDoneDataMap![x]["classColor"].toString(),
+                  pColor   :productsDoneDataMap![x]["pColor"].toString(),
+                  pHeight :productsDoneDataMap![x]["pHeight"].toDouble(),
+                  pWidth:productsDoneDataMap![x]["pWidth"].toDouble(),
               ));
 
 
-          print(products[x].pCategory,);
-          print(products[x].pCode);
-          print( products[x].pTitle);
-          print( products[x].classColor.toString(),);
-          print(products[x].pColor.toString(),);
-          print((products[x].pHeight).toDouble());
-          print((products[x].pWidth).toDouble());
+          print(productsDoneDataMap![x]["pCategory"].toString(),);
+          print(productsDoneDataMap![x]["pCode"]);
+          print( productsDoneDataMap![x]["pTitle"].toString(),);
+          print( productsDoneDataMap![x]["classColor"].toString(),);
+          print(productsDoneDataMap![x]["pColor"].toString(),);
+          print(((productsDoneDataMap![x]["pHeight"])));
+          print(((productsDoneDataMap![x]["pWidth"])));
 print("_____________________");
         }
      // });

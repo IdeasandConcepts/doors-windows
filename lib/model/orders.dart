@@ -34,7 +34,7 @@ class Orders {
 
   factory Orders.fromMap(Map<String, dynamic> map) {
     return Orders(
-      status: map['status'],
+      status: map['statsus'],
       client: map['client'] ?? '',
       employeeName: map['employee_name'] as String,
       products: List<Products>.from(
